@@ -11,7 +11,7 @@ from jadelogs.datamodels.jade_log_datamodel import JadeLogDatamodel
 class JadeLogger:
     def __init__(self):
         self._jade_log = JadeLogDatamodel()
-        self._file_manager = FileManager()
+        self.file_manager = FileManager()
         config = Config.instantiate()
 
     def reset(self):
@@ -76,7 +76,7 @@ class JadeLogger:
         self.reset()
 
     def save_snapshot(self):
-        self._file_manager.write_jade_log(self._jade_log)
+        self.file_manager.write_jade_log(self._jade_log)
 
     def global_log(self, message, level=5):
         log = LogDatamodel.create(message, level)

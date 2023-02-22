@@ -1,0 +1,5 @@
+recursive-include jadelogs *
+include setup.py
+include setup.cfg
+include MANIFEST
+global-exclude *pyc
