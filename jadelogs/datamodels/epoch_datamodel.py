@@ -10,6 +10,7 @@ class EpochDatamodel:
         self._train_batches = []
         self._evaluate_batches = []
         self._test_batches = []
+        self._size = None
     
     def start_time(self):
         return self._start_time
@@ -35,6 +36,9 @@ class EpochDatamodel:
     def current_test_batch(self):
         return self._test_batches[-1]
 
+    def size(self):
+        return self._size
+
     def set_start_time(self, start_time):
         self._start_time = start_time
 
@@ -59,6 +63,9 @@ class EpochDatamodel:
     def add_test_batch(self, test_batch):
         self._test_batches.append(test_batch)
 
+    def set_size(self, size):
+        self._size = size
+
     @staticmethod
     def from_dict(val):
         epoch = EpochDatamodel()
@@ -70,6 +77,7 @@ class EpochDatamodel:
         epoch.set_train_batches(train_batches)
         epoch.set_evaluate_batches(evaluate_batches)
         epoch.set_test_batches(test_batches)
+        epoch.set_size(val['size'])
         return epoch
 
     @staticmethod
@@ -84,5 +92,6 @@ class EpochDatamodel:
             'end_time': self.end_time(),
             'train_batches': [i.to_dict() for i in self.train_batches()],
             'evaluate_batches': [i.to_dict() for i in self.evaluate_batches()],
-            'test_batches': [i.to_dict() for i in self.test_batches()]
+            'test_batches': [i.to_dict() for i in self.test_batches()],
+            'size': self.size(),
         }
