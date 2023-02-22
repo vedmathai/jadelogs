@@ -37,14 +37,14 @@ class JadeLogger:
     def new_test_batch(self):
         self._new_batch('test')
 
-    def new_train_datapoint(self, expected_label, predicted_label, context):
-        self._new_datapoint('train', expected_label, predicted_label, context)
+    def new_train_datapoint(self, expected_label, predicted_label, loss, context):
+        self._new_datapoint('train', expected_label, predicted_label, loss, context)
 
-    def new_evaluate_datapoint(self, expected_label, predicted_label, context):
-        self._new_datapoint('evaluate', expected_label, predicted_label, context)
+    def new_evaluate_datapoint(self, expected_label, predicted_label, loss, context):
+        self._new_datapoint('evaluate', expected_label, predicted_label, loss, context)
 
-    def new_test_datapoint(self, expected_label, predicted_label, context):
-        self._new_datapoint('test', expected_label, predicted_label, context)
+    def new_test_datapoint(self, expected_label, predicted_label, loss, context):
+        self._new_datapoint('test', expected_label, predicted_label, loss, context)
 
     def _new_batch(self, batch_type):
         experiment = self._jade_log.current_experiment()
@@ -58,7 +58,7 @@ class JadeLogger:
         batch_type2fn[batch_type](batch)
         self.save_snapshot()
 
-    def _new_datapoint(self, batch_type, expected_label, predicted_label, context):
+    def _new_datapoint(self, batch_type, expected_label, predicted_label, loss, context):
         experiment = self._jade_log.current_experiment()
         epoch = experiment.current_epoch()
         batch_type2fn = {
@@ -67,9 +67,8 @@ class JadeLogger:
             'test': epoch.current_test_batch,
         }
         batch = batch_type2fn[batch_type]()
-        datapoint = DatapointDatamodel.create(expected_label, predicted_label, context)
+        datapoint = DatapointDatamodel.create(expected_label, predicted_label, loss, context)
         batch.add_datapoint(datapoint)
-        self.save_snapshot()
         
     def end_experiment(self):
         self.save_snapshot()
@@ -88,3 +87,9 @@ class JadeLogger:
         log = LogDatamodel.create(message, level)
         experiment.add_log(log)
         self.save_snapshot()
+
+    def current_experiment(self):
+        return self._jade_log.current_experiment()
+
+    def current_epoch(self):
+        return self.current_experiment().current_epoch()
