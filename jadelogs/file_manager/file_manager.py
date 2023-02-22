@@ -5,7 +5,6 @@ from jadelogs.common.config import Config
 from jadelogs.datamodels.jade_log_datamodel import JadeLogDatamodel
 
 
-
 class FileManager:
 
     def project_folder(self):
@@ -37,22 +36,30 @@ class FileManager:
         request_id = os.environ['REQUEST_ID']
         return request_id
 
-    def logs_filepath(self):
+    def logs_folderpath(self):
         request_id = self.request_id()
-        folderpath = os.path.join(self.project_folder(), request_id)
+        folderpath = os.path.join(self.project_folder(), 'logs', request_id)
         if not os.path.exists(folderpath):
             os.makedirs(folderpath)
         return folderpath
 
     def write_jade_log(self, jade_log):
-        folderpath = self.logs_filepath()
+        folderpath = self.logs_folderpath()
+        if os.path.exists(folderpath) is False:
+            os.makedirs(folderpath)
         filepath = os.path.join(folderpath, 'log.json')
         with open(filepath, 'wt') as f:
             json.dump(jade_log.to_dict(), f)
 
     def read_log_file(self):
-        folderpath = self.logs_filepath()
+        folderpath = self.logs_folderpath()
         filepath = os.path.join(folderpath, 'log.json')
         with open(filepath, 'rt') as f:
             jade_log = JadeLogDatamodel.from_dict(json.load(f))
         return jade_log
+
+    def list_data_dir(self, relative_data_dir):
+        folder_path = os.path.join(self.data_folder(), relative_data_dir)
+        files = os.listdir(folder_path)
+        files = [os.path.join(folder_path, i) for i in files]
+        return files

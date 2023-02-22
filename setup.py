@@ -1,8 +1,11 @@
 from distutils.core import setup
 setup(
     name = 'jadelogs',         # How you named your package folder (MyLib)
-    packages = ['jadelogs'],   # Chose the same as "name"
-    version = '0.1',      # Start with a small number and increase it with every change you make
+    packages=['jadelogs'],
+    package_data={
+        'jadelogs': ['*','*/*','*/*/*']
+    },   # Chose the same as "name"
+    version = '0.6',      # Start with a small number and increase it with every change you make
     license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
     description = 'Package to log and track progress of machine learning programs run on the Jade supercomputer',   # Give a short description about your library
     author = 'Ved Mathai',                   # Type in your name
