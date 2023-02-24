@@ -1,5 +1,6 @@
 import json
 import os
+import shutil
 
 from jadelogs.common.config import Config
 from jadelogs.datamodels.jade_log_datamodel import JadeLogDatamodel
@@ -45,11 +46,13 @@ class FileManager:
 
     def write_jade_log(self, jade_log):
         folderpath = self.logs_folderpath()
-        if os.path.exists(folderpath) is False:
-            os.makedirs(folderpath)
-        filepath = os.path.join(folderpath, 'log.json')
+        inner_folderpath = os.path.join(folderpath, 'logs')
+        if os.path.exists(inner_folderpath) is False:
+            os.makedirs(inner_folderpath)
+        filepath = os.path.join(inner_folderpath, 'log.json')
         with open(filepath, 'wt') as f:
             json.dump(jade_log.to_dict(), f)
+        shutil.make_archive(inner_folderpath, 'zip', inner_folderpath)
 
     def read_log_file(self):
         folderpath = self.logs_folderpath()

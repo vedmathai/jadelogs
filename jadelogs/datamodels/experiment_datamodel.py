@@ -11,6 +11,7 @@ class ExperimentDatamodel:
         self._end_time = None
         self._id = None
         self._config = None
+        self._total_epochs = None
         self._epochs = []
         self._logs = []
     
@@ -25,6 +26,9 @@ class ExperimentDatamodel:
 
     def epochs(self):
         return self._epochs
+
+    def total_epochs(self):
+        return self._total_epochs
 
     def config(self):
         return self._config
@@ -47,6 +51,9 @@ class ExperimentDatamodel:
     def set_epochs(self, epochs):
         self._epochs = epochs
 
+    def set_total_epochs(self, total_epochs):
+        self._total_epochs = total_epochs
+
     def set_config(self, config):
         self._config = config
 
@@ -66,6 +73,7 @@ class ExperimentDatamodel:
         experiment.set_end_time(val['end_time'])
         epochs = [EpochDatamodel.from_dict(i) for i in val['epochs']]
         experiment.set_epochs(epochs)
+        experiment.set_total_epochs(val['total_epochs'])
         experiment.set_config(val['config'])
         logs = [LogDatamodel.from_dict(i) for i in val['logs']]
         experiment.set_logs(logs)
@@ -82,6 +90,7 @@ class ExperimentDatamodel:
             'start_time': self.start_time(),
             'end_time': self.end_time(),
             'epochs': [i.to_dict() for i in self.epochs()],
+            'total_epochs': self.total_epochs(),
             'config': self.config(),
             'logs': [i.to_dict() for i in self.logs()],
         }
