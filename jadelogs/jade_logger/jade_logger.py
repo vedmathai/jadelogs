@@ -96,3 +96,7 @@ class JadeLogger:
 
     def current_epoch(self):
         return self.current_experiment().current_epoch()
+
+    def set_total_epochs(self, total_epochs):
+        experiment = self._jade_log.current_experiment()
+        experiment.set_total_epochs(total_epochs)
