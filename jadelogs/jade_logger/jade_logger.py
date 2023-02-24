@@ -77,6 +77,9 @@ class JadeLogger:
     def save_snapshot(self):
         self.file_manager.write_jade_log(self._jade_log)
 
+    def from_snapshot(self, val):
+        return JadeLogDatamodel.from_dict(val)
+
     def global_log(self, message, level=5):
         log = LogDatamodel.create(message, level)
         self._jade_log.add_global_log(log)
