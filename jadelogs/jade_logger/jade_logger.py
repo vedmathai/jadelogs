@@ -22,6 +22,18 @@ class JadeLogger:
         self._jade_log.add_experiment(experiment)
         self.save_snapshot()
 
+    def set_experiment_name(self, name):
+        experiment = self._jade_log.current_experiment()
+        experiment.set_name(name)
+
+    def set_experiment_type(self, experiment_type):
+        experiment = self._jade_log.current_experiment()
+        experiment.set_experiment_type(experiment_type)
+
+    def set_experiment_run_config(self, run_config):
+        experiment = self._jade_log.current_experiment()
+        experiment.set_run_config(run_config)
+
     def new_epoch(self):
         epoch = EpochDatamodel.create()
         current_experiment = self._jade_log.current_experiment()
