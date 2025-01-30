@@ -68,7 +68,6 @@ class JadeLogger:
         }
         batch = BatchDatamodel.create()
         batch_type2fn[batch_type](batch)
-        self.save_snapshot()
 
     def _new_datapoint(self, batch_type, expected_label, predicted_label, loss, context):
         experiment = self._jade_log.current_experiment()

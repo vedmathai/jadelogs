@@ -1,7 +1,7 @@
 import json
 
 CONFIG_DICT = {
-    "project_folder": "jade_front"
+    "project_folder": "$DATA/jade_front"
 }
 
 class Config:
